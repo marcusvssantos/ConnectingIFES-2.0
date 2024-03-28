@@ -9,6 +9,10 @@
 
 <body>
     <h2>Cadastro de Usuário</h2>
+
+    <div id="aviso" style="display:none;color:red;">
+    </div>
+
     <form action="../../../app/controllers/usuario/ProcessarCadastroUsuario.php" method="POST" id="cadastroForm">
         <label for="nome">Nome:</label><br>
         <input type="text" id="nome" name="nome" required><br>
@@ -69,6 +73,34 @@
                 siapeGroup.style.display = "block";
                 siapeInput.setAttribute("required", "required");
             }
+        }
+
+
+
+        if ('<?php echo isset($_GET["erro"]) ? $_GET["erro"] : "" ?>' === "email_existente_e_matricula_existente") {
+            document.getElementById("aviso").innerText = "E-mail e Matricula já Cadastrados!.";
+            var aviso = document.getElementById("aviso");
+            aviso.style.display = "block";
+        }
+        if ('<?php echo isset($_GET["erro"]) ? $_GET["erro"] : "" ?>' === "email_existente_e_siape_existente") {
+            document.getElementById("aviso").innerText = "E-mail e Siape já Cadastrados!.";
+            var aviso = document.getElementById("aviso");
+            aviso.style.display = "block";
+        }
+        if ('<?php echo isset($_GET["erro"]) ? $_GET["erro"] : "" ?>' === "email_existente") {
+            document.getElementById("aviso").innerText = "E-mail já Cadastrado!.";
+            var aviso = document.getElementById("aviso");
+            aviso.style.display = "block";
+        }
+        if ('<?php echo isset($_GET["erro"]) ? $_GET["erro"] : "" ?>' === "siape_existente") {
+            document.getElementById("aviso").innerText = "Siape já Cadastrado!.";
+            var aviso = document.getElementById("aviso");
+            aviso.style.display = "block";
+        }
+        if ('<?php echo isset($_GET["erro"]) ? $_GET["erro"] : "" ?>' === "matricula_existente") {
+            document.getElementById("aviso").innerText = "Matricula já Cadastrada!.";
+            var aviso = document.getElementById("aviso");
+            aviso.style.display = "block";
         }
     </script>
 </body>
