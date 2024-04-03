@@ -45,7 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $idUsuario = $usuarioController->criarUsuario($nome, $sobrenome, $email, $senha, $fotoPerfil, $tipo, $matricula, $siape);
 
         if ($idUsuario) {
-            echo "Usuário cadastrado com sucesso! ID: $idUsuario";
+            echo "Usuário cadastrado com sucesso!";
+            echo "<script>setTimeout(function() {
+                window.location.href = '../../views/usuario/UsuarioREAD.php';
+            }, 2000);</script>";
         } else {
             echo "Erro ao cadastrar usuário.";
         }

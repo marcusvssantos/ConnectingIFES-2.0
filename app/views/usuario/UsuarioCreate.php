@@ -37,12 +37,12 @@
         </select><br>
 
         <div id="matriculaGroup" style="display:none;">
-            <label for="matricula">Matrícula (opcional):</label><br>
+            <label for="matricula">Matrícula:</label><br>
             <input type="text" id="matricula" name="matricula"><br>
         </div>
 
         <div id="siapeGroup" style="display:none;">
-            <label for="siape">SIAPE (opcional):</label><br>
+            <label for="siape">SIAPE:</label><br>
             <input type="text" id="siape" name="siape"><br>
         </div>
 

@@ -66,6 +66,14 @@ class UsuarioModel {
         return $count > 0;
     }
     
+    public function obterUsuarioPorEmailSenha($email, $senha) {
+        $sql = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$email, $senha]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $usuario;
+    }
+    
     
 }
 ?>

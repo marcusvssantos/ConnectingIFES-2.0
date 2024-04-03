@@ -41,5 +41,8 @@ class UsuarioController {
     public function verificarMatriculaExistente($matricula) {
         return $this->usuarioModel->verificarMatriculaExistente($matricula);
     }
+    public function obterUsuarioPorEmailSenha($email, $senha) {
+        return $this->usuarioModel->obterUsuarioPorEmailSenha($email, $senha);
+    }
 }
 ?>

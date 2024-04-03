@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }else {
         // Caso o e-mail não esteja cadastrado, cadastra o usuário
         $idUsuario = $usuarioController->atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula, $siape);
-            echo "Usuário editado com sucesso! ID: $idUsuario";
+            echo "Usuário editado com sucesso!";
             echo "<script>setTimeout(function() {
                 window.location.href = '../../views/usuario/UsuarioREAD.php';
             }, 2000);</script>";
