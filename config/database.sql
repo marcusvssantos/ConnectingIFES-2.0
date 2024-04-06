@@ -10,15 +10,16 @@ CREATE TABLE Usuario (
     nome VARCHAR(100),
     sobrenome VARCHAR(100),
     email VARCHAR(100) UNIQUE,
-    senha VARCHAR(100),
-    fotoPerfil VARCHAR(255),
+    fotoPerfil BLOB,
     tipo ENUM('aluno', 'professor', 'administrador')
 );
+
 
 -- Tabela Aluno
 CREATE TABLE Aluno (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    matricula INT UNIQUE,
+    matricula VARCHAR(50) UNIQUE,
+    senha VARCHAR(100),
     curso VARCHAR(100),
     periodo INT,
     usuario_id INT,
@@ -28,7 +29,8 @@ CREATE TABLE Aluno (
 -- Tabela Professor
 CREATE TABLE Professor (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    siape INT UNIQUE,
+    siape VARCHAR(50) UNIQUE,
+    senha VARCHAR(100),
     departamento VARCHAR(100),
     usuario_id INT,
     FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
@@ -37,7 +39,8 @@ CREATE TABLE Professor (
 -- Tabela Administrador
 CREATE TABLE Administrador (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    login VARCHAR(100),
+    login VARCHAR(50),
+    senha VARCHAR(100),
     usuario_id INT,
     FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
 );

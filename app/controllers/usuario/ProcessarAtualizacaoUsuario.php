@@ -3,22 +3,40 @@ require_once '../../../config/conexao.php';
 require_once 'UsuarioController.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idUsuario = $_POST['idUsuario'];
+    // Obter dados do formulário
+    $idUsuario = $_POST['idUsuario']; // Certifique-se de que o ID do usuário está sendo enviado corretamente
     $nome = $_POST['nome'];
     $sobrenome = $_POST['sobrenome'];
     $email = $_POST['email'];
-    $fotoPerfil = $_POST['fotoPerfil'];
+    $senha = $_POST['senha'];
     $tipo = $_POST['tipo'];
-    $matricula = isset($_POST['matricula']) ? $_POST['matricula'] : "";
-    $siape = isset($_POST['siape']) ? $_POST['siape'] : "";
+    $matricula = isset($_POST['matricula']) ? $_POST['matricula'] : null;
+    $curso = isset($_POST['curso']) ? $_POST['curso'] : null;
+    $periodo = isset($_POST['periodo']) ? $_POST['periodo'] : null;
+    $siape = isset($_POST['siape']) ? $_POST['siape'] : null;
+    $departamento = isset($_POST['departamento']) ? $_POST['departamento'] : null;
+    $login = isset($_POST['login']) ? $_POST['login'] : null;
+
+    // Verificar se uma nova foto de perfil foi enviada
+    $fotoPerfilAtualizada = null;
+    if (isset($_FILES['fotoPerfil']) && $_FILES['fotoPerfil']['error'] === UPLOAD_ERR_OK) {
+        $diretorioDestino = "../../../public/uploads/fotoPerfil/";
+        $nomeArquivo = $_FILES['fotoPerfil']['name'];
+        $caminhoTemporario = $_FILES['fotoPerfil']['tmp_name'];
+        $extensao = pathinfo($nomeArquivo, PATHINFO_EXTENSION);
+        $novoNome = "foto_perfil_" . time() . "." . $extensao;
+        $caminhoCompleto = $diretorioDestino . $novoNome;
+        if (move_uploaded_file($caminhoTemporario, $caminhoCompleto)) {
+            $fotoPerfilAtualizada = $caminhoCompleto;
+        } else {
+            echo "Erro ao mover o arquivo de foto de perfil para o diretório de destino.";
+            exit;
+        }
+    }
 
     $usuarioController = new UsuarioController($conn);
 
-    $usuarioEditado = $usuarioController->obterUsuario($idUsuario);
-    $emailUsuarioEditado = $usuarioEditado['email'];
-    $siapeUsuarioEditado = $usuarioEditado['siape'];
-    $matriculaUsuarioEditado = $usuarioEditado['matricula'];
-    
+
     // Verifica se o e-mail já está cadastrado
     $emailExistente = $usuarioController->verificarEmailExistente($email);
     
@@ -47,10 +65,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }else {
         // Caso o e-mail não esteja cadastrado, cadastra o usuário
-        $idUsuario = $usuarioController->atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula, $siape);
-            echo "Usuário editado com sucesso!";
+        $usuarioController->atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfilAtualizada, $tipo, $matricula, $siape, $curso, $periodo, $departamento, $login);
+        echo "Usuário editado com sucesso!";
             echo "<script>setTimeout(function() {
                 window.location.href = '../../views/usuario/UsuarioREAD.php';
             }, 2000);</script>";
     }
 }
+?>
