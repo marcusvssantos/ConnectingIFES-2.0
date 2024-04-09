@@ -39,7 +39,7 @@ class UsuarioModel
 
     public function obterUsuario($idUsuario)
     {
-        $sql = "SELECT * FROM Usuario WHERE id = ?";
+        $sql = "SELECT * FROM Usuario WHERE idUsuario = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idUsuario]);
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -65,9 +65,37 @@ class UsuarioModel
         return $usuario;
     }
 
+    public function obterAlunos() {
+        $sql = "SELECT u.*, a.* FROM Usuario u
+                LEFT JOIN Aluno a ON u.idUsuario = a.usuario_id
+                WHERE u.tipo = 'aluno'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function obterProfessores() {
+        $sql = "SELECT u.*, p.* FROM Usuario u
+                LEFT JOIN Professor p ON u.idUsuario = p.usuario_id
+                WHERE u.tipo = 'professor'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function obterAdministradores() {
+        $sql = "SELECT u.*, ad.* FROM Usuario u
+                LEFT JOIN Administrador ad ON u.idUsuario = ad.usuario_id
+                WHERE u.tipo = 'administrador'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
     public function atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula = null, $siape = null, $curso = null, $periodo = null,  $departamento = null, $login = null)
     {
-        $sql = "UPDATE Usuario SET nome = ?, sobrenome = ?, email = ?, fotoPerfil = ?, tipo = ? WHERE id = ?";
+        $sql = "UPDATE Usuario SET nome = ?, sobrenome = ?, email = ?, fotoPerfil = ?, tipo = ? WHERE idUsuario = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$nome, $sobrenome, $email, $fotoPerfil, $tipo, $idUsuario]);
 
@@ -92,7 +120,7 @@ class UsuarioModel
 
     public function deletarUsuario($idUsuario)
     {
-        $sql = "DELETE FROM Usuario WHERE id = ?";
+        $sql = "DELETE FROM Usuario WHERE idUsuario = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idUsuario]);
     }

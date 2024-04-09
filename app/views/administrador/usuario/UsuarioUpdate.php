@@ -1,11 +1,11 @@
 <?php
-require_once '../../../app/controllers/usuario/UsuarioController.php';
+include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/app/controllers/usuario/UsuarioController.php');
 
 $usuarioController = new UsuarioController($conn);
 
 // Verifica se o ID do usuário foi passado na URL
-if (isset($_GET['id'])) {
-    $idUsuario = $_GET['id'];
+if (isset($_GET['idUsuario'])) {
+    $idUsuario = $_GET['idUsuario'];
 
     // Obtém os detalhes do usuário com base no ID
     $usuario = $usuarioController->obterUsuario($idUsuario);
@@ -48,7 +48,7 @@ if (isset($_GET['id'])) {
     <div id="aviso" class="alert alert-danger" style="display:none;">
     </div>
 
-    <form action="../../../app/controllers/usuario/ProcessarAtualizacaoUsuario.php" method="POST" id="atualizacaoForm" class="container">
+    <form action="../../../../app/controllers/usuario/ProcessarAtualizacaoUsuario.php" method="POST" id="atualizacaoForm" enctype="multipart/form-data" class="container">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome:</label>
             <input type="text" class="form-control" id="nome" name="nome" value="<?php echo $nome; ?>" required>

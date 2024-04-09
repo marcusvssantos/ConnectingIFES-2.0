@@ -19,7 +19,7 @@ include("header.php");
     <div id="aviso" class="alert alert-danger" style="display:none;">
     </div>
 
-    <form action="../../../app/controllers/usuario/ProcessarCadastroUsuario.php" method="POST" id="cadastroForm" enctype="multipart/form-data" class="container">
+    <form action="../../../../app/controllers/usuario/ProcessarCadastroUsuario.php" method="POST" id="cadastroForm" enctype="multipart/form-data" class="container">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome:</label>
             <input type="text" class="form-control" id="nome" name="nome" required>

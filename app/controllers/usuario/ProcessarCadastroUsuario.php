@@ -34,38 +34,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Verifica se um arquivo de fotoPerfil foi enviado
     if (isset($_FILES['fotoPerfil']) && $_FILES['fotoPerfil']['error'] === UPLOAD_ERR_OK) {
-        // Diretório para salvar as fotos de perfil
-        $diretorioDestino = "../../../public/uploads/fotoPerfil/";
-
-        // Obtém informações sobre o arquivo de fotoPerfil
+        $diretorioDestino = $_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/public/uploads/fotoPerfil/';
         $nomeArquivo = $_FILES['fotoPerfil']['name'];
-        $caminhoTemporario = $_FILES['fotoPerfil']['tmp_name'];
         $extensao = pathinfo($nomeArquivo, PATHINFO_EXTENSION); // Obtém a extensão do arquivo original
         $novoNome = "foto_perfil_" . time() . "." . $extensao; // Define o novo nome com o timestamp e a extensão original
-
-        // Move o arquivo para o diretório de destino
+    
+        // Correção: inclui o novo nome do arquivo no caminho de destino
         $caminhoCompleto = $diretorioDestino . $novoNome;
-        if (move_uploaded_file($caminhoTemporario, $caminhoCompleto)) {
-            // Caso o arquivo tenha sido movido com sucesso, define o caminho da fotoPerfil
-            $fotoPerfil = $caminhoCompleto;
+    
+        if (move_uploaded_file($_FILES['fotoPerfil']['tmp_name'], $caminhoCompleto)) {
+            $fotoPerfil = $novoNome;
         } else {
             echo "Erro ao mover o arquivo de foto de perfil para o diretório de destino.";
-            exit; // Encerra o script em caso de erro
         }
     }
 
     // Verifica se o e-mail já está cadastrado
     if ($emailExistente) {
-        header("Location: ../../views/usuario/UsuarioCreate.php?erro=email_existente");
+        header("Location: ../../views/administrador/usuario/UsuarioCreate.php?erro=email_existente");
         exit;
     } elseif ($siapeExistente) {
-        header("Location: ../../views/usuario/UsuarioCreate.php?erro=siape_existente");
+        header("Location: ../../views/administrador/usuario/UsuarioCreate.php?erro=siape_existente");
         exit;
     } elseif ($matriculaExistente) {
-        header("Location: ../../views/usuario/UsuarioCreate.php?erro=matricula_existente");
+        header("Location: ../../views/administrador/usuario/UsuarioCreate.php?erro=matricula_existente");
         exit;
     } elseif ($loginExistente) {
-        header("Location: ../../views/usuario/UsuarioCreate.php?erro=login_existente");
+        header("Location: ../../views/administrador/usuario/UsuarioCreate.php?erro=login_existente");
         exit;
     }
 
@@ -75,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($idUsuario) {
         echo "Usuário cadastrado com sucesso!";
         echo "<script>setTimeout(function() {
-            window.location.href = '../../views/usuario/UsuarioREAD.php';
+            window.location.href = '../../views/administrador/usuario/UsuarioREAD.php';
         }, 2000);</script>";
     } else {
         echo "Erro ao cadastrar usuário.";

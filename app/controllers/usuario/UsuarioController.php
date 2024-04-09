@@ -1,6 +1,7 @@
 <?php
-require_once '../../../config/conexao.php';
-require_once '../../models/UsuarioModel.php';
+include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/config/conexao.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/app/models/UsuarioModel.php');
+
 
 $usuarioController = new UsuarioController($conn);
 
@@ -45,6 +46,18 @@ class UsuarioController {
 
     public function obterUsuarioPorEmailSenha($email, $senha) {
         return $this->usuarioModel->obterUsuarioPorEmailSenha($email, $senha);
+    }
+
+    public function obterAlunos() {
+        return $this->usuarioModel->obterAlunos();
+    }
+
+    public function obterProfessores() {
+        return $this->usuarioModel->obterProfessores();
+    }
+
+    public function obterAdministradores() {
+        return $this->usuarioModel->obterAdministradores();
     }
 }
 ?>
