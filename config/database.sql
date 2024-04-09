@@ -6,7 +6,7 @@ USE `ConnectingIFES_2_0`;
 
 -- Tabela Usuario
 CREATE TABLE Usuario (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
     sobrenome VARCHAR(100),
     email VARCHAR(100) UNIQUE,
@@ -17,7 +17,7 @@ CREATE TABLE Usuario (
 
 -- Tabela Aluno
 CREATE TABLE Aluno (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idAluno INT AUTO_INCREMENT PRIMARY KEY,
     matricula VARCHAR(50) UNIQUE,
     senha VARCHAR(100),
     curso VARCHAR(100),
@@ -28,7 +28,7 @@ CREATE TABLE Aluno (
 
 -- Tabela Professor
 CREATE TABLE Professor (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idProfessor INT AUTO_INCREMENT PRIMARY KEY,
     siape VARCHAR(50) UNIQUE,
     senha VARCHAR(100),
     departamento VARCHAR(100),
@@ -38,9 +38,31 @@ CREATE TABLE Professor (
 
 -- Tabela Administrador
 CREATE TABLE Administrador (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idAdministrador INT AUTO_INCREMENT PRIMARY KEY,
     login VARCHAR(50),
     senha VARCHAR(100),
     usuario_id INT,
     FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
+);
+
+
+CREATE TABLE Grupo (
+    idGrupo INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE GrupoAluno (
+    grupo_id INT,
+    aluno_id INT,
+    PRIMARY KEY (grupo_id, aluno_id),
+    FOREIGN KEY (grupo_id) REFERENCES Grupo(idGrupo),
+    FOREIGN KEY (aluno_id) REFERENCES Aluno(idAluno)
+);
+
+CREATE TABLE GrupoProfessor (
+    grupo_id INT,
+    professor_id INT,
+    PRIMARY KEY (grupo_id, professor_id),
+    FOREIGN KEY (grupo_id) REFERENCES Grupo(idGrupo),
+    FOREIGN KEY (professor_id) REFERENCES Professor(idProfessor)
 );
