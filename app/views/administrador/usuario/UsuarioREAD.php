@@ -1,6 +1,6 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/app/controllers/usuario/UsuarioController.php');
-include("header.php");
+include("../header.php");
 
 if (isset($_POST['deleteUser'])) {
     if (isset($_POST['idUsuario']) && !empty($_POST['idUsuario'])) {

@@ -42,9 +42,8 @@
     <header class="d-flex align-items-center py-3 bg-success">
         <div class="d-flex justify-content-center align-items-center flex-grow-1">
             <ul class="nav nav-pills">
-                <li class="nav-item"><a href="UsuarioREAD.php" class="nav-link" aria-current="page">Página Inicial</a></li>
-                <li class="nav-item"><a href="UsuarioREAD.php" class="nav-link" aria-current="page">Painel de Usuários</a></li>
-                <li class="nav-item"><a href="UsuarioREAD.php" class="nav-link" aria-current="page">Grupos</a></li>
+                <li class="nav-item"><a href="http://localhost/ConnectingIFES%202.0/app/views/administrador/usuario/UsuarioREAD.php" class="nav-link" aria-current="page">Usuários</a></li>
+                <li class="nav-item"><a href="http://localhost/ConnectingIFES%202.0/app/views/administrador/grupo/GrupoREAD.php" class="nav-link" aria-current="page">Grupos</a></li>
             </ul>
         </div>
         <form class="nav navbar-nav navbar-right" method="POST">
