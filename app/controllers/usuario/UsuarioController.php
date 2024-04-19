@@ -1,6 +1,6 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/config/conexao.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/app/models/UsuarioModel.php');
+require 'C:\wamp64\www\ConnectingIFES 2.0\app\models\UsuarioModel.php';
 
 
 $usuarioController = new UsuarioController($conn);
@@ -44,8 +44,16 @@ class UsuarioController {
         return $this->usuarioModel->verificarLoginExistente($login);
     }
 
-    public function obterUsuarioPorEmailSenha($email, $senha) {
-        return $this->usuarioModel->obterUsuarioPorEmailSenha($email, $senha);
+    public function obterAlunoPorMatriculaSenha($matricula, $senha) {
+        return $this->usuarioModel->obterAlunoPorMatriculaSenha($matricula, $senha);
+    }
+
+    public function obterProfessorPorEmailSenha($email, $senha) {
+        return $this->usuarioModel->obterProfessorPorEmailSenha($email, $senha);
+    }
+
+    public function obterAdministradorPorEmailSenha($email, $senha) {
+        return $this->usuarioModel->obterAdministradorPorEmailSenha($email, $senha);
     }
 
     public function obterAlunos() {

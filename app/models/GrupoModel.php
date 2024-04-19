@@ -24,6 +24,14 @@ class GrupoModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function obterGrupoNome($nome)
+    {
+        $sql = "SELECT * FROM Grupo WHERE nome = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$nome]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function obterGrupos()
     {
         $sql = "SELECT * FROM Grupo";

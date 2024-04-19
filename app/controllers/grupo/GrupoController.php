@@ -1,6 +1,6 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/config/conexao.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/app/models/GrupoModel.php');
+require 'C:\wamp64\www\ConnectingIFES 2.0\app\models\GrupoModel.php';
 
 
 $grupoController = new GrupoController($conn);
@@ -22,6 +22,11 @@ class GrupoController
     public function obterGrupo($idGrupo)
     {
         return $this->grupoModel->obterGrupo($idGrupo);
+    }
+
+    public function obterGrupoNome($nome)
+    {
+        return $this->grupoModel->obterGrupoNome($nome);
     }
 
     public function obterGrupos()

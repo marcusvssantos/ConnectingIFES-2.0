@@ -65,7 +65,8 @@ class UsuarioModel
         return $usuario;
     }
 
-    public function obterAlunos() {
+    public function obterAlunos()
+    {
         $sql = "SELECT u.*, a.* FROM Usuario u
                 LEFT JOIN Aluno a ON u.idUsuario = a.usuario_id
                 WHERE u.tipo = 'aluno'";
@@ -73,8 +74,9 @@ class UsuarioModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public function obterProfessores() {
+
+    public function obterProfessores()
+    {
         $sql = "SELECT u.*, p.* FROM Usuario u
                 LEFT JOIN Professor p ON u.idUsuario = p.usuario_id
                 WHERE u.tipo = 'professor'";
@@ -82,8 +84,9 @@ class UsuarioModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public function obterAdministradores() {
+
+    public function obterAdministradores()
+    {
         $sql = "SELECT u.*, ad.* FROM Usuario u
                 LEFT JOIN Administrador ad ON u.idUsuario = ad.usuario_id
                 WHERE u.tipo = 'administrador'";
@@ -91,7 +94,7 @@ class UsuarioModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
 
     public function atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula = null, $siape = null, $curso = null, $periodo = null,  $departamento = null, $login = null)
     {
@@ -120,10 +123,54 @@ class UsuarioModel
 
     public function deletarUsuario($idUsuario)
     {
+        // Primeiro, obtemos o tipo de usuário
+        $sql = "SELECT tipo FROM Usuario WHERE idUsuario = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$idUsuario]);
+        $tipo = $stmt->fetchColumn();
+
+        // Em seguida, deletamos as entradas relacionadas em outras tabelas de acordo com o tipo
+        switch ($tipo) {
+            case 'aluno':
+                $this->deletarAluno($idUsuario);
+                break;
+            case 'professor':
+                $this->deletarProfessor($idUsuario);
+                break;
+            case 'administrador':
+                $this->deletarAdministrador($idUsuario);
+                break;
+            default:
+                break;
+        }
+
+        // Finalmente, deletamos o usuário da tabela principal
         $sql = "DELETE FROM Usuario WHERE idUsuario = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idUsuario]);
     }
+
+    private function deletarAluno($idUsuario)
+    {
+        $sql = "DELETE FROM Aluno WHERE usuario_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$idUsuario]);
+    }
+
+    private function deletarProfessor($idUsuario)
+    {
+        $sql = "DELETE FROM Professor WHERE usuario_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$idUsuario]);
+    }
+
+    private function deletarAdministrador($idUsuario)
+    {
+        $sql = "DELETE FROM Administrador WHERE usuario_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$idUsuario]);
+    }
+
 
     public function verificarEmailExistente($email)
     {
@@ -161,12 +208,36 @@ class UsuarioModel
         return $count > 0;
     }
 
-    public function obterUsuarioPorEmailSenha($email, $senha)
+    public function obterAlunoPorMatriculaSenha($matricula, $senha)
     {
-        $sql = "SELECT * FROM Usuario WHERE email = ? AND senha = ?";
+        $sql = "SELECT u.*, a.matricula, a.curso, a.periodo FROM Usuario u 
+            INNER JOIN Aluno a ON u.idUsuario = a.usuario_id 
+            WHERE a.matricula = ? AND a.senha = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$matricula, $senha]);
+        $aluno = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $aluno;
+    }
+
+    public function obterProfessorPorEmailSenha($email, $senha)
+    {
+        $sql = "SELECT u.*, p.siape, p.departamento FROM Usuario u 
+            INNER JOIN Professor p ON u.idUsuario = p.usuario_id 
+            WHERE u.email = ? AND p.senha = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$email, $senha]);
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $usuario;
+        $professor = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $professor;
+    }
+
+    public function obterAdministradorPorEmailSenha($email, $senha)
+    {
+        $sql = "SELECT u.*, a.login FROM Usuario u 
+            INNER JOIN Administrador a ON u.idUsuario = a.usuario_id 
+            WHERE u.email = ? AND a.senha = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$email, $senha]);
+        $administrador = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $administrador;
     }
 }
