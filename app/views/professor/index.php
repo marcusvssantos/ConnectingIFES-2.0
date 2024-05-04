@@ -12,8 +12,6 @@ session_start();
     <title>Connecting IFES</title>
     <link rel="icon" type="image/png" sizes="32x32" href="img/Logo ConnectingIFES.png">
     <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -38,14 +36,15 @@ session_start();
 
         form {
             background-color: #fff;
-            padding: 30px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        input[type="email"],
+        input[type="text"],
         input[type="password"] {
             width: calc(100% - 20px);
+            /* Subtrai 20px para considerar o padding */
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
@@ -77,41 +76,21 @@ session_start();
             max-width: 50%;
             height: auto;
         }
-
-        /* Novos estilos para os links .nav-link */
-        .nav-link {
-            display: block;
-            text-align: left;
-            color: #000;
-            font-size: 18px;
-            padding: 10px 0;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            line-height: 1.5;
-            font-weight: bold;
-            font-style: italic;
-            vertical-align: middle;
-        }
-
-        .nav-link:hover {
-            color: #0056b3;
-        }
     </style>
-
 </head>
 
 <body>
     <div class="login-container">
         <div class="images-container"> <!-- Div envolvente adicionada aqui -->
-            <img src="http://localhost/ConnectingIFES%202.0//public/img/logoIFES.svg">
-            <img src="http://localhost/ConnectingIFES%202.0//public/img/Logo ConnectingIFES.png">
+            <img src="http://localhost/ConnectingIFES%202.0/public/img/logoIFES.svg">
+            <img src="http://localhost/ConnectingIFES%202.0/public/img/Logo ConnectingIFES.png">
         </div>
-        <form method="POST" action="../app/controllers/login/ProcessarLogin.php" id="formlogin" name="formlogin">
-            <a href="http://localhost/ConnectingIFES%202.0/app/views/administrador/index.php" class="nav-link" aria-current="page"><i class="bi bi-person-fill-gear"></i> Administrador</a>
-            <a href="http://localhost/ConnectingIFES%202.0/app/views/aluno/index.php" class="nav-link" aria-current="page"><i class="bi bi-person-vcard-fill"></i> Aluno</a>
-            <a href="http://localhost/ConnectingIFES%202.0/app/views/professor/index.php" class="nav-link" aria-current="page"><i class="bi bi-person-lines-fill"></i> Professor</a>
+        <h2>Login ConnectingIFES</h2>
+        <form method="POST" action="http://localhost/ConnectingIFES%202.0/app/controllers/login/ProcessarLogin.php" id="formlogin" name="formlogin">
+            <input type="text" placeholder="SIAPE" name="siape">
+            <input type="password" placeholder="Senha" name="senha">
+            <input type="hidden" name="tipo" value="professor">
+            <input type="submit" value="Entrar" name="entrar">
         </form>
     </div>
 </body>

@@ -48,12 +48,12 @@ class UsuarioController {
         return $this->usuarioModel->obterAlunoPorMatriculaSenha($matricula, $senha);
     }
 
-    public function obterProfessorPorEmailSenha($email, $senha) {
-        return $this->usuarioModel->obterProfessorPorEmailSenha($email, $senha);
+    public function obterProfessorPorSiapeSenha($siape, $senha) {
+        return $this->usuarioModel->obterProfessorPorSiapeSenha($siape, $senha);
     }
 
-    public function obterAdministradorPorEmailSenha($email, $senha) {
-        return $this->usuarioModel->obterAdministradorPorEmailSenha($email, $senha);
+    public function obterAdministradorPorLoginSenha($login, $senha) {
+        return $this->usuarioModel->obterAdministradorPorLoginSenha($login, $senha);
     }
 
     public function obterAlunos() {

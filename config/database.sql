@@ -66,3 +66,26 @@ CREATE TABLE GrupoProfessor (
     FOREIGN KEY (grupo_id) REFERENCES Grupo(idGrupo),
     FOREIGN KEY (professor_id) REFERENCES Professor(idProfessor)
 );
+
+CREATE TABLE Publicacao (
+    idPublicacao INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100),
+    conteudo VARCHAR(1000),
+    imagemPublicacao BLOB,
+    dataPublicacao DATETIME,
+    professor_id INT,
+    FOREIGN KEY (professor_id) REFERENCES Professor(idProfessor)
+);
+
+CREATE TABLE PublicacaoGrupo (
+    grupo_id INT,
+    publicacao_id INT,
+    PRIMARY KEY (grupo_id, publicacao_id),
+    FOREIGN KEY (grupo_id) REFERENCES Grupo(idGrupo),
+    FOREIGN KEY (publicacao_id) REFERENCES Publicacao(idPublicacao)
+);
+
+
+
+
+
