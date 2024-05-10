@@ -39,7 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             switch ($tipo) {
                 case 'professor':
                     $_SESSION['siape'] = $siape;
-                    header("Location: http://localhost/ConnectingIFES%202.0/app/views/professor/publicacoes.php");
+                    $_SESSION['senha'] = $senha;
+                    header("Location: http://localhost/ConnectingIFES%202.0/app/views/professor/connectingIFES.php");
                     exit();
                     break;
                 case 'aluno':

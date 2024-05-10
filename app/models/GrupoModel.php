@@ -102,6 +102,17 @@ class GrupoModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obterGruposDoProfesor($siape)
+    {
+        $sql = "SELECT g.* FROM Grupo g
+                JOIN GrupoProfessor gp ON g.idGrupo = gp.grupo_id
+                JOIN Professor p ON gp.professor_id = p.idProfessor
+                WHERE p.siape = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$siape]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function verificarNomeGrupoExistente($nome)
     {
         $sql = "SELECT COUNT(*) FROM Grupo WHERE nome = ?";
@@ -147,7 +158,8 @@ class GrupoModel
         return $stmt->fetchColumn() > 0;
     }
 
-    public function obterMembrosGrupo($idGrupo) {
+    public function obterMembrosGrupo($idGrupo)
+    {
         // Buscar alunos do grupo
         $sqlAlunos = "SELECT a.* FROM Aluno a
                      JOIN GrupoAluno ga ON a.idAluno = ga.aluno_id
@@ -155,7 +167,7 @@ class GrupoModel
         $stmtAlunos = $this->conn->prepare($sqlAlunos);
         $stmtAlunos->execute([$idGrupo]);
         $alunos = $stmtAlunos->fetchAll(PDO::FETCH_ASSOC);
-    
+
         // Buscar professores do grupo
         $sqlProfessores = "SELECT p.* FROM Professor p
                            JOIN GrupoProfessor gp ON p.idProfessor = gp.professor_id
@@ -163,30 +175,32 @@ class GrupoModel
         $stmtProfessores = $this->conn->prepare($sqlProfessores);
         $stmtProfessores->execute([$idGrupo]);
         $professores = $stmtProfessores->fetchAll(PDO::FETCH_ASSOC);
-    
+
         // Combinar alunos e professores em um único array
         $membrosGrupo = array_merge($alunos, $professores);
-    
+
         return $membrosGrupo;
     }
 
-    public function removerMembroDoGrupo($idGrupo, $idMembro, $tipoMembro) {
+    public function removerMembroDoGrupo($idGrupo, $idMembro, $tipoMembro)
+    {
         $sql = $tipoMembro === 'aluno' ? "DELETE FROM GrupoAluno WHERE grupo_id = ? AND aluno_id = ?" : "DELETE FROM GrupoProfessor WHERE grupo_id = ? AND professor_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idGrupo, $idMembro]);
     }
 
-    public function adicionarMembroAoGrupo($idGrupo, $idMembro, $tipoMembro) {
+    public function adicionarMembroAoGrupo($idGrupo, $idMembro, $tipoMembro)
+    {
         $sql = $tipoMembro === 'aluno' ? "INSERT INTO GrupoAluno (grupo_id, aluno_id) VALUES (?, ?)" : "INSERT INTO GrupoProfessor (grupo_id, professor_id) VALUES (?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idGrupo, $idMembro]);
     }
 
-    public function membroEstaNoGrupo($idGrupo, $idMembro, $tipoMembro) {
+    public function membroEstaNoGrupo($idGrupo, $idMembro, $tipoMembro)
+    {
         $sql = $tipoMembro === 'aluno' ? "SELECT COUNT(*) FROM GrupoAluno WHERE grupo_id = ? AND aluno_id = ?" : "SELECT COUNT(*) FROM GrupoProfessor WHERE grupo_id = ? AND professor_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idGrupo, $idMembro]);
         return $stmt->fetchColumn() > 0;
     }
-    
 }

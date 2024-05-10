@@ -1,12 +1,28 @@
 <?php
 session_start();
+include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/app/controllers/publicacao/PublicacaoController.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/app/controllers/usuario/UsuarioController.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ConnectingIFES 2.0/app/controllers/grupo/GrupoController.php');
+
+$usuarioController = new UsuarioController($conn);
+$publicacaoController = new PublicacaoController($conn);
+$grupoController = new GrupoController($conn);
+
+
+$siape =  $_SESSION['siape'];
+$senha =  $_SESSION['senha'];
+
+$usuario = $usuarioController->obterProfessorPorSiapeSenha($siape, $senha);
+$gruposProfessor = $grupoController->obterGruposDoProfesor($siape);
+
 
 if ((!isset($_SESSION['siape']) == true)) {
-  header('location: ../index.php');
+  header("Location: http://localhost/ConnectingIFES%202.0/app/views/erro.php?erro=nao_logado");
 }
 
 
 if (isset($_POST['sair'])) {
+  header("Location: http://localhost/ConnectingIFES%202.0/app/index.php");
   unset($_SESSION['siape']);
   unset($_SESSION['idUsuario']);
 }
@@ -43,14 +59,17 @@ if (isset($_POST['sair'])) {
     <ul>
       <li>
         <a>
-          <img class="nav-icon" src="acai.png">
+          <?php
+          $fotoPerfil = '../../../public/uploads/fotoPerfil/' . $usuario['fotoPerfil'];
+          echo "<img class='nav-icon' src=' " . $fotoPerfil . "'> ";
+          ?>
           <span class="nav-text">
-            &nbsp&nbsp Carlos João
+            &nbsp&nbsp <?php echo "{$usuario['nome']} {$usuario['sobrenome']}"; ?>
           </span>
         </a>
       </li>
       <li>
-        <a href="index_professor.php">
+        <a href="connectingIFES.php">
           <i class="bi bi-house-door"></i>
           <span class="nav-text">
             Publicações
@@ -123,31 +142,35 @@ if (isset($_POST['sair'])) {
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form action="../../../app/controllers/publicacao/ProcessarCadastroPublicacao.php" enctype="multipart/form-data" method="POST">
             <div class="form-group">
               <label for="tituloPost">Título</label>
-              <input type="text" class="form-control" id="tituloPost" name="tituloPost" placeholder="Digite o título da postagem">
+              <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Digite o título da postagem">
             </div>
             <div class="form-group">
               <label for="conteudoPost">Conteúdo</label>
-              <textarea class="form-control" id="conteudoPost" name="conteudoPost" rows="4" placeholder="Digite o conteúdo da postagem"></textarea>
+              <textarea class="form-control" id="conteudo" name="conteudo" rows="4" placeholder="Digite o conteúdo da postagem"></textarea>
             </div>
+
+            <?php echo '<input type="hidden" id="professor_id" name="professor_id" value="'. $usuario['idProfessor']. '">';?>
             <div class="form-group">
               <label for="imagemPost" class="col-form-label">Imagem</label>
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="imagemPost" name="imagemPost">
+                <input type="file" class="custom-file-input" id="imagem" name="imagem">
                 <label class="custom-file-label" for="imagemPost">Escolher arquivo</label>
               </div>
             </div>
-            <div class="form-group">
-              <label for="multiSelect">Selecione as opções:</label>
-              <select class="form-control" id="multiSelect">
-                <option value="opcao1">Opção 1</option>
-                <option value="opcao2">Opção 2</option>
-                <option value="opcao3">Opção 3</option>
-                <option value="opcao4">Opção 4</option>
-              </select>
-            </div>
+            <label>Selecione os grupos em que deseja Publicar:</label><br>
+            <?php
+            foreach ($gruposProfessor as $grupo) {
+              echo '<div class="form-check">';
+              echo '<input class="form-check-input" type="checkbox" id="grupo_' . $grupo['idGrupo'] . '" name="grupos[]" value="' . $grupo['idGrupo'] . '">';
+              echo '<label class="form-check-label" for="grupo_' . $grupo['idGrupo'] . '">' . $grupo['nome'] . '</label>';
+              echo '</div>';
+            }
+            ?>
+            <button type="submit" name='post_publicacao' class="btn btn-primary">Publicar</button>
+
           </form>
         </div>
 

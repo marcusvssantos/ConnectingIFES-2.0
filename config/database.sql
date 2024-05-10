@@ -23,7 +23,7 @@ CREATE TABLE Aluno (
     curso VARCHAR(100),
     periodo INT,
     usuario_id INT,
-    FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(idAluno)
 );
 
 -- Tabela Professor
@@ -33,7 +33,7 @@ CREATE TABLE Professor (
     senha VARCHAR(100),
     departamento VARCHAR(100),
     usuario_id INT,
-    FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(idUsuario)
 );
 
 -- Tabela Administrador

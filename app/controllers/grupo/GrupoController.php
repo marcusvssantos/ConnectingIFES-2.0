@@ -100,6 +100,10 @@ class GrupoController
         return $this->grupoModel->professorEstaNoGrupo($idGrupo, $idProfessor);
     }
 
+    Public function obterGruposDoProfesor($siape){
+        return $this->grupoModel->obterGruposDoProfesor($siape);
+    }
+
     public function obterMembrosGrupo($idGrupo)
     {
         return $this->grupoModel->obterMembrosGrupo($idGrupo);
