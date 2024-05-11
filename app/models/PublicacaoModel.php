@@ -44,7 +44,9 @@ class PublicacaoModel
         $sql = "SELECT * FROM Publicacao WHERE idPublicacao =?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$publicacao_id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $publicacao = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $publicacao;
     }
 
     public function atualizarPublicacao($publicacao_id, $titulo, $conteudo, $imagemPublicacao, $dataPublicacao)
