@@ -14,6 +14,7 @@ $senha =  $_SESSION['senha'];
 
 $usuario = $usuarioController->obterProfessorPorSiapeSenha($siape, $senha);
 $gruposProfessor = $grupoController->obterGruposDoProfesor($siape);
+$grupos = $grupoController->obterGrupos();
 
 
 if ((!isset($_SESSION['siape']) == true)) {
@@ -77,8 +78,10 @@ if (isset($_POST['sair'])) {
         </a>
       </li>
 
-      <li>
-        <a href="editar_professor.php">
+      <li> 
+      <?php 
+      echo "<a class='editBtnProf' href='#contact' data-toggle='modal' data-target='#edicaoProfessorModal' title='Editar Perfil'>"
+      ?>
           <i class="bi bi-gear"></i>
           <span class="nav-text">
             Editar Perfil
@@ -131,7 +134,7 @@ if (isset($_POST['sair'])) {
 
   </nav>
 
-  <!-- Modal -->
+  <!-- Modal Publicação-->
   <div class="modal fade" id="cadastroModal" tabindex="-1" role="dialog" aria-labelledby="cadastroModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -178,8 +181,58 @@ if (isset($_POST['sair'])) {
     </div>
   </div>
 
+<!-- Modal Professor-->
+<div class="modal fade" id="edicaoProfessorModal" tabindex="-1" role="dialog" aria-labelledby="edicaoProfessorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="edicaoProfessorModalLabel">Editar Meu Perfil</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="../../../app/controllers/usuario/ProcessarAtualizacaoUsuario.php" enctype="multipart/form-data" method="POST">
+            <div class="form-group">
+              <label for="nomePost">Nome</label>
+              <input type="text" class="form-control" id="nome" name="nome" value="<?php echo "{$usuario['nome']} ";?>" placeholder="Digite seu nome" required> 
+            </div>
+            <div class="form-group">
+              <label for="sobrenomePost">Sobrenome</label>
+              <input class="form-control" id="sobrenome" value="<?php echo "{$usuario['sobrenome']} ";?>" name="sobrenome"  placeholder="Digite o seu Sobrenome" required></input>
+            </div>
+            <div class="form-group">
+              <label for="emailPost">email</label>
+              <input type="email" class="form-control" id="email" value="<?php echo "{$usuario['email']} ";?>" name="email" placeholder="Digite o seu Email" required></input>
+            </div>
+            <div class="form-group">
+              <label for="senhaPost">Senha</label>
+              <input type="password" class="form-control" id="senha" name="senha"  placeholder="Digite sua nova Senha" required></input>
+            </div>
+            <?php echo '<input type="hidden" id="idUsuario" name="idUsuario" value="'. $usuario['idUsuario']. '">';?>
+            <?php echo '<input type="hidden" id="tipo" name="tipo" value="'. $usuario['tipo']. '">';?>
+            <?php echo '<input type="hidden" id="departamento" name="departamento" value="'. $usuario['departamento']. '">';?>
+            <?php echo '<input type="hidden" id="siape" name="siape" value="'. $usuario['siape']. '">';?>
 
+            <div class="form-group">
+              <label for="fotoPerfilPost" class="col-form-label">Foto de Perfil</label>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="fotoPerfil" name="fotoPerfil">
+                <label class="custom-file-label" for="fotoPerfilPost">Escolher arquivo</label>
+              </div>
+            </div>
+           
+            
+            <button type="submit" name='post_publicacao' class="btn btn-primary">Publicar</button>
 
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
 
   <!-- Incluindo Bootstrap JS (opcional) -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

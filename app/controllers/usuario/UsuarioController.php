@@ -12,16 +12,16 @@ class UsuarioController {
         $this->usuarioModel = new UsuarioModel($conn);
     }
 
-    public function criarUsuario($nome, $sobrenome, $email, $senha, $fotoPerfil, $tipo, $matricula = null, $siape = null, $curso = null, $departamento = null, $login = null) {
-        return $this->usuarioModel->criarUsuario($nome, $sobrenome, $email, $senha, $fotoPerfil, $tipo, $matricula, $siape, $curso, $departamento, $login);
+    public function criarUsuario($nome, $sobrenome, $email, $senha, $fotoPerfil, $tipo, $matricula = null, $siape = null, $curso = null, $periodo =null, $departamento = null, $login = null) {
+        return $this->usuarioModel->criarUsuario($nome, $sobrenome, $email, $senha, $fotoPerfil, $tipo, $matricula, $siape, $curso, $periodo, $departamento, $login);
     }
 
     public function obterUsuario($idUsuario) {
         return $this->usuarioModel->obterUsuario($idUsuario);
     }
     
-    public function atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula = null, $siape = null, $curso = null, $periodo, $departamento = null, $login = null) {
-        $this->usuarioModel->atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula, $siape, $curso, $periodo , $departamento, $login);
+    public function atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula = null, $siape = null, $curso = null, $periodo, $departamento = null, $login = null, $senha = null) {
+        $this->usuarioModel->atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula, $siape, $curso, $periodo , $departamento, $login, $senha);
     }
 
     public function deletarUsuario($idUsuario) {

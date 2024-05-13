@@ -96,7 +96,7 @@ class UsuarioModel
     }
 
 
-    public function atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula = null, $siape = null, $curso = null, $periodo = null,  $departamento = null, $login = null)
+    public function atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula = null, $siape = null, $curso = null, $periodo = null,  $departamento = null, $login = null, $senha = null)
     {
         $sql = "UPDATE Usuario SET nome = ?, sobrenome = ?, email = ?, fotoPerfil = ?, tipo = ? WHERE idUsuario = ?";
         $stmt = $this->conn->prepare($sql);
@@ -104,19 +104,19 @@ class UsuarioModel
 
         switch ($tipo) {
             case 'aluno':
-                $sql = "UPDATE Aluno SET matricula = ?, curso = ?, periodo = ? WHERE usuario_id = ?";
+                $sql = "UPDATE Aluno SET matricula = ?, curso = ?, periodo = ? , senha = ? WHERE usuario_id = ?";
                 $stmt = $this->conn->prepare($sql);
-                $stmt->execute([$matricula, $curso, $periodo, $idUsuario]);
+                $stmt->execute([$matricula, $curso, $periodo, $senha, $idUsuario]);
                 break;
             case 'professor':
-                $sql = "UPDATE Professor SET siape = ?, departamento = ? WHERE usuario_id = ?";
+                $sql = "UPDATE Professor SET siape = ?, departamento = ? , senha = ? WHERE usuario_id = ?";
                 $stmt = $this->conn->prepare($sql);
-                $stmt->execute([$siape, $departamento, $idUsuario]);
+                $stmt->execute([$siape, $departamento, $senha, $idUsuario]);
                 break;
             case 'administrador':
-                $sql = "UPDATE Administrador SET login = ? WHERE usuario_id = ?";
+                $sql = "UPDATE Administrador SET login = ? ,senha = ? WHERE usuario_id = ?";
                 $stmt = $this->conn->prepare($sql);
-                $stmt->execute([$login, $idUsuario]);
+                $stmt->execute([$login, $senha, $idUsuario]);
                 break;
         }
     }

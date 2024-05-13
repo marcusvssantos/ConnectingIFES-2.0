@@ -15,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $siape = isset($_POST['siape']) ? $_POST['siape'] : null;
     $departamento = isset($_POST['departamento']) ? $_POST['departamento'] : null;
     $login = isset($_POST['login']) ? $_POST['login'] : null;
+    $senha = isset($_POST['senha']) ? $_POST['senha'] : null;
 
     // Verificar se uma nova foto de perfil foi enviada
     // Inicialize $fotoPerfil com o valor da foto de perfil existente
@@ -89,10 +90,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     } else {
         // Caso o e-mail não esteja cadastrado, cadastra o usuário
-        $usuarioController->atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula, $siape, $curso, $periodo, $departamento, $login);
+        $usuarioController->atualizarUsuario($idUsuario, $nome, $sobrenome, $email, $fotoPerfil, $tipo, $matricula, $siape, $curso, $periodo, $departamento, $login, $senha);
         echo "Usuário editado com sucesso!";
         echo "<script>setTimeout(function() {
-                window.location.href = '../../views/administrador/usuario/UsuarioREAD.php';
-            }, 2000);</script>";
+            window.history.back();
+        }, 2000);</script>";
     }
 }

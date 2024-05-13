@@ -17,6 +17,7 @@ if (isset($_GET['idUsuario'])) {
         $email = $usuario['email'];
         $foto = $usuario['fotoPerfil'];
         $tipo = $usuario['tipo'];
+        $senha = $usuario['senha'];
         $matricula = isset($usuario['matricula']) ? $usuario['matricula'] : '';
         $siape = isset($usuario['siape']) ? $usuario['siape'] : '';
         $curso = isset($usuario['curso']) ? $usuario['curso'] : '';
@@ -65,6 +66,8 @@ if (isset($_GET['idUsuario'])) {
             <input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>" required>
         </div>
 
+            <input type="hidden" class="form-control" id="senha" name="senha" value="<?php echo $senha; ?>" required>
+
         <div class="mb-3">
             <label for="fotoPerfil" class="form-label">Foto de Perfil:</label>
             <input type="file" class="form-control" id="fotoPerfil" name="fotoPerfil">
@@ -72,6 +75,7 @@ if (isset($_GET['idUsuario'])) {
 
         <input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $idUsuario; ?>">
         <input type="hidden" id="tipo" name="tipo" value="<?php echo $tipo; ?>">
+
 
         <?php if ($tipo === 'aluno') : ?>
             <div class="mb-3">
@@ -101,7 +105,6 @@ if (isset($_GET['idUsuario'])) {
                 <input type="text" class="form-control" id="login" name="login" value="<?php echo $login; ?>" required>
             </div>
         <?php endif; ?>
-
         <button type="submit" class="btn btn-success">Atualizar</button>
     </form>
 
