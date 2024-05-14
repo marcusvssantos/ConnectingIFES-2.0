@@ -159,8 +159,8 @@ if (isset($_POST['sair'])) {
             <div class="form-group">
               <label for="imagemPost" class="col-form-label">Imagem</label>
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="imagem" name="imagem">
                 <label class="custom-file-label" for="imagemPost">Escolher arquivo</label>
+                <input type="file" class="custom-file-input" id="imagem" name="imagem">
               </div>
             </div>
             <label>Selecione os grupos em que deseja Publicar:</label><br>

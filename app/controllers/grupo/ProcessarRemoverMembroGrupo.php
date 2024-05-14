@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $grupoController = new GrupoController($conn);
 
-        $professorGrupo = $grupoController->adicionarProfessorAoGrupo($idGrupo, $idProfessor);
+        $professorGrupo = $grupoController->removerProfessorDoGrupo($idGrupo, $idProfessor);
 
     }
    

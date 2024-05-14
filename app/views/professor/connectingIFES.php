@@ -17,8 +17,8 @@ $publicacoes = $publicacaoController->obterPublicacoesProfessorGrupo($usuario['i
 <body>
 
     <div class="container vh-100 d-flex flex-column">
-        <div class="row flex-grow-1">
-            <div class="col-10 align-self-center scrollContainer">
+        <div class="row">
+            <div class="col-10 ">
                 <h2 class="mb-4" style="color: #32A041;">Publicações</h2>
 
                 <?php
@@ -61,31 +61,110 @@ $publicacoes = $publicacaoController->obterPublicacoesProfessorGrupo($usuario['i
                         <div class="user-card">
                             <?php
                             foreach ($grupos as $grupo) {
-                                $professorNoGrupo = false; 
+                                $professorNoGrupo = false;
 
                                 foreach ($gruposProfessor as $gp) {
-                                    if ($gp['idGrupo'] == $grupo['idGrupo']) { 
+                                    if ($gp['idGrupo'] == $grupo['idGrupo']) {
                                         $professorNoGrupo = true;
                                         break;
                                     }
                                 }
-                                if($professorNoGrupo == false){
-                                    echo "<div>{$grupo['nome']} - Seguir</div>";
-                                }else{
-                                    echo "<div>{$grupo['nome']} - Deixar de Seguir</div>";
+                                if (!$professorNoGrupo) {
+                                    echo "<div id='grupo-{$grupo['idGrupo']}'>
+                                        <form class='form-grupo'>
+                                            <br>
+                                            <input type='hidden' name='idProfessor' value='{$usuario['idProfessor']}'>
+                                            <input type='hidden' name='idGrupo' value='{$grupo['idGrupo']}'>
+                                            <div>{$grupo['nome']} - <button type='button' class='btn btn-primary' data-action='adicionar'>Seguir</button></div>
+                                        </form>
+                                    </div>";
+                                } else {
+                                    echo "<div id='grupo-{$grupo['idGrupo']}'>
+                                        <form class='form-grupo'>
+                                            <br>
+                                            <input type='hidden' name='idProfessor' value='{$usuario['idProfessor']}'>
+                                            <input type='hidden' name='idGrupo' value='{$grupo['idGrupo']}'>
+                                            <div>{$grupo['nome']} - <button type='button' class='btn btn-danger' data-action='remover'>Deixar de Seguir</button></div>
+                                        </form>
+                                    </div>";
                                 }
                             }
                             ?>
                         </div>
                     </div>
                 </div>
+                <div class="direita col-12">
+                 <br>
+                 <div class="card seguir-card" >
+                        <h3>Principais Notícias IFES</h3>
+                        <br>
+                        <?php
+                        $xml = simplexml_load_file("https://www.ifes.edu.br/noticias?format=feed&type=rss");
+
+                        if ($xml === false) {
+                            echo "Erro ao carregar o arquivo XML";
+                        } else {
+                            foreach ($xml->channel->item as $item) {
+                                $titulo = (string) $item->title;
+                                $link = (string) $item->link;
+                                $descricao = (string) $item->description;
+                                $data = date("d/m/Y", strtotime((string) $item->pubDate));
+                                
+                                echo '<div class="card mb-3">';
+                                echo '<div class="card-body">';
+                                echo "<h5 class='card-title'>$titulo</h5>";
+                                echo "<p class='card-text'>$descricao</p>";
+                                echo "<a href='$link' class='card-link' target='_blank'>Leia mais</a>";
+                                echo '</div>';
+                                echo '<div class="card-footer">';
+                                echo "<small class='text-muted'>Data: $data</small>";
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+
+
             </div>
 
         </div>
 
     </div>
 
-    <script src=" https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.user-card').on('click', '.btn', function() {
+                var action = $(this).data('action');
+                var form = $(this).closest('.form-grupo');
+                var idProfessor = form.find('input[name="idProfessor"]').val();
+                var idGrupo = form.find('input[name="idGrupo"]').val();
+
+                $.ajax({
+                    url: action === 'adicionar' ? '../../../app/controllers/grupo/ProcessarCadastroMembroGrupo.php' : '../../../app/controllers/grupo/ProcessarRemoverMembroGrupo.php',
+                    type: 'POST',
+                    data: {
+                        idProfessor: idProfessor,
+                        idGrupo: idGrupo
+                    },
+                    success: function(response) {
+                        // Atualize o conteúdo da div conforme necessário após a resposta
+                        if (action === 'adicionar') {
+                            form.find('.btn').removeClass('btn-primary').addClass('btn-danger').data('action', 'remover').text('Deixar de Seguir');
+                        } else {
+                            form.find('.btn').removeClass('btn-danger').addClass('btn-primary').data('action', 'adicionar').text('Seguir');
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Erro na requisição AJAX: ' + textStatus, errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 

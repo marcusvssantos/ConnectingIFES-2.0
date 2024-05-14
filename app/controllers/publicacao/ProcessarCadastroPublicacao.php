@@ -23,8 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoCompleto)) {
             $imagemPublicacao = $novoNome;
-        } else {
-            echo "Erro ao mover o arquivo de imagem para o diretório de destino.";
         }
     }
 

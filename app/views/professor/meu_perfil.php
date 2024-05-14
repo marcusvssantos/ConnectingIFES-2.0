@@ -40,8 +40,16 @@ $publicacoes = $publicacaoController->obterPublicacoesPorProfessor($usuario['idP
                     class='btn btn-success btn-sm mb-2 editBtn' style='width: 30px; height: 30px;'>
                         <i class='bi bi-pencil' style='width: 50%; height: 50%; font-size: 50%; align-self: center;'></i>
                     </button>&nbsp";
-                echo "<button type='submit' name='delete_publicacao' class='btn btn-danger btn-sm mb-2' style='width: 30px; height: 30px;'><i class='bi bi-trash' style='width: 50%; height: 50%; font-size: 50%; align-self: center;'></i></button>"; // Botão de apagar
                 echo "</form>";
+            ?>
+
+                <form class="delete-publicacao-form" method="POST" action="../../../app/controllers/publicacao/ProcessarRemoverPublicacao.php">
+                    <input type="hidden" name="idPublicacao" value="<?php echo $publicacao['idPublicacao']; ?>">
+                    <button type="submit" class="btn btn-danger btn-sm mb-2 deleteBtn" style="width: 30px; height: 30px;">
+                        <i class="bi bi-trash" style="width: 50%; height: 50%; font-size: 50%; align-self: center;"></i>
+                    </button>
+                </form>
+            <?php
                 echo "</div>";
                 echo "<div class='publicacao-card-content'>";
                 echo "<h3 style='text-align:center;'> " . $publicacao['titulo'] . "</h3>";
@@ -73,7 +81,7 @@ $publicacoes = $publicacaoController->obterPublicacoesPorProfessor($usuario['idP
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="../../../app/controllers/publicacao/ProcessarAtualizacaoPublicacao.php" enctype="multipart/form-data" method="POST">
+                    <form id="editPostForm" enctype="multipart/form-data" method="POST">
                         <div class="form-group">
                             <label for="tituloPost">Título</label>
                             <input type="text" class="form-control" id="editTitulo" name="editTitulo" placeholder="Digite o título da postagem">
@@ -90,14 +98,66 @@ $publicacoes = $publicacaoController->obterPublicacoesPorProfessor($usuario['idP
                             </div>
                         </div>
                         <input type="hidden" name="editIdPublicacao" id="editIdPublicacao">
-                        <button type="submit" name='post_publicacao' class="btn btn-primary">Publicar</button>
-
+                        <button type="submit" name="post_publicacao" class="btn btn-primary">Publicar</button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#editPostForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: '../../../app/controllers/publicacao/ProcessarAtualizacaoPublicacao.php',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        // Processar a resposta e atualizar a interface do usuário
+                        window.location.href = 'meu_perfil.php';
+                        alert('Publicação atualizada com sucesso!');
+                        $('#editModal').modal('hide');
+                        // Aqui você pode atualizar a publicação na página sem recarregar
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Erro na requisição AJAX: ' + textStatus, errorThrown);
+                    }
+                });
+            });
+
+            // Para popular o modal com os dados da publicação quando ele for aberto
+            $('#editModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var idPublicacao = button.data('id'); // Extraia a informação de `data-id` do botão que abriu o modal
+
+                // Aqui você faria uma requisição AJAX para obter os dados da publicação e preencher os campos do formulário
+                $.ajax({
+                    url: '../../../app/controllers/publicacao/ObterDadosPublicacao.php',
+                    type: 'GET',
+                    data: {
+                        idPublicacao: idPublicacao
+                    },
+                    success: function(data) {
+                        $('#editTitulo').val(data.titulo);
+                        $('#editConteudo').val(data.conteudo);
+                        $('#editIdPublicacao').val(data.idPublicacao);
+                        // Se tiver uma imagem, você pode exibir um preview dela ou alguma indicação
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Erro ao obter os dados da publicação: ' + textStatus, errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -116,7 +176,6 @@ $publicacoes = $publicacaoController->obterPublicacoesPorProfessor($usuario['idP
         });
     </script>
 
-    <script src=" https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../../bootstrap/js/bootstrap.min.js"></script>
