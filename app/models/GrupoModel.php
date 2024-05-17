@@ -113,6 +113,17 @@ class GrupoModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obterGruposDoAluno($matricula)
+    {
+        $sql = "SELECT g.* FROM Grupo g
+                JOIN GrupoAluno ga ON g.idGrupo = ga.grupo_id
+                JOIN Aluno a ON ga.aluno_id = a.idAluno
+                WHERE a.matricula = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$matricula]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function verificarNomeGrupoExistente($nome)
     {
         $sql = "SELECT COUNT(*) FROM Grupo WHERE nome = ?";

@@ -10,7 +10,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $grupoController = new GrupoController($conn);
 
         $professorGrupo = $grupoController->adicionarProfessorAoGrupo($idGrupo, $idProfessor);
+    }
 
+    if(isset($_POST['idAluno'])){
+        $idAluno = $_POST['idAluno'];
+        $idGrupo = $_POST['idGrupo'];
+
+        $grupoController = new GrupoController($conn);
+
+        $professorGrupo = $grupoController->adicionarAlunoAoGrupo($idGrupo, $idAluno);
     }
    
 }

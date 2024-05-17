@@ -85,7 +85,22 @@ CREATE TABLE PublicacaoGrupo (
     FOREIGN KEY (publicacao_id) REFERENCES Publicacao(idPublicacao)
 );
 
+CREATE TABLE Conversa (
+    idConversa INT AUTO_INCREMENT PRIMARY KEY,
+    usuario1_id INT,
+    usuario2_id INT,
+    dataInicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario1_id) REFERENCES Usuario(idUsuario),
+    FOREIGN KEY (usuario2_id) REFERENCES Usuario(idUsuario)
+);
 
 
-
-
+CREATE TABLE Mensagem (
+    idMensagem INT AUTO_INCREMENT PRIMARY KEY,
+    conversa_id INT,
+    remetente_id INT,
+    conteudo TEXT,
+    dataEnvio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (conversa_id) REFERENCES Conversa(idConversa),
+    FOREIGN KEY (remetente_id) REFERENCES Usuario(idUsuario)
+);

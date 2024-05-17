@@ -82,14 +82,14 @@ session_start();
 <body>
     <div class="login-container">
         <div class="images-container"> <!-- Div envolvente adicionada aqui -->
-            <img src="http://localhost/ConnectingIFES%202.0//public/img/logoIFES.svg">
-            <img src="http://localhost/ConnectingIFES%202.0//public/img/Logo ConnectingIFES.png">
+            <img src="http://localhost/ConnectingIFES%202.0/public/img/logoIFES.svg">
+            <img src="http://localhost/ConnectingIFES%202.0/public/img/Logo ConnectingIFES.png">
         </div>
         <h2>Login ConnectingIFES</h2>
         <form method="POST" action="http://localhost/ConnectingIFES%202.0/app/controllers/login/ProcessarLogin.php" id="formlogin" name="formlogin">
-            <input type="text" placeholder="Login" name="login">
+            <input type="text" placeholder="Matricula" name="matricula">
             <input type="password" placeholder="Senha" name="senha">
-            <input type="hidden" name="tipo" value="administrador">
+            <input type="hidden" name="tipo" value="aluno">
             <input type="submit" value="Entrar" name="entrar">
         </form>
     </div>

@@ -9,22 +9,22 @@ $publicacaoController = new PublicacaoController($conn);
 $grupoController = new GrupoController($conn);
 
 
-$siape =  $_SESSION['siape'];
+$matricula =  $_SESSION['matricula'];
 $senha =  $_SESSION['senha'];
 
-$usuario = $usuarioController->obterProfessorPorSiapeSenha($siape, $senha);
-$gruposProfessor = $grupoController->obterGruposDoProfesor($siape);
+$usuario = $usuarioController->obterAlunoPorMatriculaSenha($matricula, $senha);
+$gruposAluno = $grupoController->obterGruposDoAluno($matricula);
 $grupos = $grupoController->obterGrupos();
 
 
-if ((!isset($_SESSION['siape']) == true)) {
+if ((!isset($_SESSION['matricula']) == true)) {
   header("Location: http://localhost/ConnectingIFES%202.0/app/views/erro.php?erro=nao_logado");
 }
 
 
 if (isset($_POST['sair'])) {
   header("Location: http://localhost/ConnectingIFES%202.0/app/index.php");
-  unset($_SESSION['siape']);
+  unset($_SESSION['matricula']);
   unset($_SESSION['idUsuario']);
 }
 
@@ -42,7 +42,7 @@ if (isset($_POST['sair'])) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
   <link rel="icon" type="image/png" sizes="32x32" href="../../img/Logo ConnectingIFES.png">
-  <link rel="stylesheet" type="text/css" href="estilo_professor.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="estilo_aluno.css" media="screen" />
   <!-- CSS do Bootstrap -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -80,7 +80,7 @@ if (isset($_POST['sair'])) {
 
       <li> 
       <?php 
-      echo "<a class='editBtnProf' href='#contact' data-toggle='modal' data-target='#edicaoProfessorModal' title='Editar Perfil'>"
+      echo "<a class='editBtnProf' href='#contact' data-toggle='modal' data-target='#edicaoAlunoModal' title='Editar Perfil'>"
       ?>
           <i class="bi bi-gear"></i>
           <span class="nav-text">
@@ -89,22 +89,7 @@ if (isset($_POST['sair'])) {
         </a>
       </li>
 
-      <li>
-        <a href="meu_perfil.php">
-          <i class="bi bi-people"></i>
-          <span class="nav-text">
-            Minhas Publicações
-          </span>
-        </a>
-      </li>
-      <li>
-        <a href="#contact" data-toggle="modal" data-target="#cadastroModal" title="Adicionar Nova Publicação">
-          <i class="bi bi-file-earmark-plus"></i>
-          <span class="nav-text">
-            Nova Publicações
-          </span>
-        </a>
-      </li>
+      
       <li>
         <a href="chat.php" title="Chat">
           <i class="bi bi-chat-dots"></i>
@@ -134,59 +119,13 @@ if (isset($_POST['sair'])) {
 
   </nav>
 
-  <!-- Modal Publicação-->
-  <div class="modal fade" id="cadastroModal" tabindex="-1" role="dialog" aria-labelledby="cadastroModalLabel" aria-hidden="true">
+
+<!-- Modal Aluno-->
+<div class="modal fade" id="edicaoAlunoModal" tabindex="-1" role="dialog" aria-labelledby="edicaoAlunoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="cadastroModalLabel">Publicação</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="../../../app/controllers/publicacao/ProcessarCadastroPublicacao.php" enctype="multipart/form-data" method="POST">
-            <div class="form-group">
-              <label for="tituloPost">Título</label>
-              <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Digite o título da postagem">
-            </div>
-            <div class="form-group">
-              <label for="conteudoPost">Conteúdo</label>
-              <textarea class="form-control" id="conteudo" name="conteudo" rows="4" placeholder="Digite o conteúdo da postagem"></textarea>
-            </div>
-
-            <?php echo '<input type="hidden" id="professor_id" name="professor_id" value="'. $usuario['idProfessor']. '">';?>
-            <div class="form-group">
-              <label for="imagemPost" class="col-form-label">Imagem</label>
-              <div class="custom-file">
-                <label class="custom-file-label" for="imagemPost">Escolher arquivo</label>
-                <input type="file" class="custom-file-input" id="imagem" name="imagem">
-              </div>
-            </div>
-            <label>Selecione os grupos em que deseja Publicar:</label><br>
-            <?php
-            foreach ($gruposProfessor as $grupo) {
-              echo '<div class="form-check">';
-              echo '<input class="form-check-input" type="checkbox" id="grupo_' . $grupo['idGrupo'] . '" name="grupos[]" value="' . $grupo['idGrupo'] . '">';
-              echo '<label class="form-check-label" for="grupo_' . $grupo['idGrupo'] . '">' . $grupo['nome'] . '</label>';
-              echo '</div>';
-            }
-            ?>
-            <button type="submit" name='post_publicacao' class="btn btn-primary">Publicar</button>
-
-          </form>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-<!-- Modal Professor-->
-<div class="modal fade" id="edicaoProfessorModal" tabindex="-1" role="dialog" aria-labelledby="edicaoProfessorModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="edicaoProfessorModalLabel">Editar Meu Perfil</h5>
+          <h5 class="modal-title" id="edicaoAlunoModalLabel">Editar Meu Perfil</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -211,8 +150,9 @@ if (isset($_POST['sair'])) {
             </div>
             <?php echo '<input type="hidden" id="idUsuario" name="idUsuario" value="'. $usuario['idUsuario']. '">';?>
             <?php echo '<input type="hidden" id="tipo" name="tipo" value="'. $usuario['tipo']. '">';?>
-            <?php echo '<input type="hidden" id="departamento" name="departamento" value="'. $usuario['departamento']. '">';?>
-            <?php echo '<input type="hidden" id="siape" name="siape" value="'. $usuario['siape']. '">';?>
+            <?php echo '<input type="hidden" id="curso" name="curso" value="'. $usuario['curso']. '">';?>
+            <?php echo '<input type="hidden" id="periodo" name="periodo" value="'. $usuario['periodo']. '">';?>
+            <?php echo '<input type="hidden" id="matricula" name="matricula" value="'. $usuario['matricula']. '">';?>
 
             <div class="form-group">
               <label for="fotoPerfilPost" class="col-form-label">Foto de Perfil</label>

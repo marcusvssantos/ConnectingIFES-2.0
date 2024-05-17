@@ -104,6 +104,10 @@ class GrupoController
         return $this->grupoModel->obterGruposDoProfesor($siape);
     }
 
+    Public function obterGruposDoAluno($matricula){
+        return $this->grupoModel->obterGruposDoAluno($matricula);
+    }
+
     public function obterMembrosGrupo($idGrupo)
     {
         return $this->grupoModel->obterMembrosGrupo($idGrupo);

@@ -12,5 +12,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $professorGrupo = $grupoController->removerProfessorDoGrupo($idGrupo, $idProfessor);
 
     }
+
+    if(isset($_POST['idAluno'])){
+        $idAluno = $_POST['idAluno'];
+        $idGrupo = $_POST['idGrupo'];
+
+        $grupoController = new GrupoController($conn);
+
+        $AlunoGrupo = $grupoController->removerAlunoDoGrupo($idGrupo, $idAluno);
+
+    }
    
 }

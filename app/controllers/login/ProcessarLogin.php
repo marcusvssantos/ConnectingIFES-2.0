@@ -20,10 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $usuario = $usuarioController->obterProfessorPorSiapeSenha($siape, $senha);
                 break;
             case 'aluno':
-                // Código para o caso de ser aluno
+                $usuario = $usuarioController->obterAlunoPorMatriculaSenha($matricula, $senha);
                 break;
             case 'administrador':
-                // Código para o caso de ser administrador
+                $usuario = $usuarioController->obterAdministradorPorLoginSenha($login, $senha);
+                break;
                 break;
             default:
                 // Código para o caso de nenhum dos valores acima
@@ -44,10 +45,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit();
                     break;
                 case 'aluno':
-                    // Código para o caso de ser aluno
+                    $_SESSION['matricula'] = $matricula;
+                    $_SESSION['senha'] = $senha;
+                    header("Location: http://localhost/ConnectingIFES%202.0/app/views/aluno/connectingIFES.php");
                     break;
                 case 'administrador':
-                    // Código para o caso de ser administrador
+                    $_SESSION['matricula'] = $matricula;
+                    $_SESSION['senha'] = $senha;
+                    header("Location: http://localhost/ConnectingIFES%202.0/app/views/administrador/connectingIFES.php");
                     break;
                 default:
                     exit();
@@ -62,15 +67,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit();
                     break;
                 case 'aluno':
-                    // Código para o caso de ser aluno
+                    header("Location: http://localhost/ConnectingIFES%202.0/app/views/aluno/index.php");
                     break;
                 case 'administrador':
-                    // Código para o caso de ser administrador
+                    header("Location: http://localhost/ConnectingIFES%202.0/app/views/administrador/index.php");
+                    break;
                     break;
                 default:
                     exit();
                     break;
             }
         }
-    } 
+    }
 }

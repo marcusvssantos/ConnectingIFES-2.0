@@ -93,12 +93,13 @@ class PublicacaoModel
 
     public function obterPublicacoesAlunoGrupo($aluno_id)
     {
-        $sql = "SELECT p.*, g.grupo_nome
-            FROM Publicacao p
-            JOIN PublicacaoGrupo pg ON p.idPublicacao = pg.publicacao_id
-            JOIN Grupo g ON pg.grupo_id = g.idGrupo
-            JOIN GrupoAluno ga ON g.idGrupo = ga.grupo_id
-            WHERE ga.aluno_id =?";
+        $sql = "SELECT DISTINCT p.*, u.*, pr.* FROM  Publicacao p
+                JOIN Professor pr ON p.professor_id = pr.idProfessor
+                JOIN Usuario u ON pr.usuario_id = u.idUsuario
+                JOIN  PublicacaoGrupo pg ON p.idPublicacao = pg.publicacao_id
+                JOIN GrupoAluno ga ON pg.grupo_id = ga.grupo_id
+                WHERE ga.aluno_id = ?
+                ORDER BY p.dataPublicacao DESC ";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$aluno_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
