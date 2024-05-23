@@ -40,14 +40,12 @@ if (isset($_POST['sair'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
   <link rel="icon" type="image/png" sizes="32x32" href="../../img/Logo ConnectingIFES.png">
   <link rel="stylesheet" type="text/css" href="estilo_aluno.css" media="screen" />
-  <!-- CSS do Bootstrap -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- JS do Bootstrap (necessário para os componentes interativos) -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
 </head>
 
 <body>

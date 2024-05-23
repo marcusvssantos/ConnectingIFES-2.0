@@ -53,7 +53,7 @@ $publicacoes = $publicacaoController->obterPublicacoesProfessorGrupo($usuario['i
             </div>
 
             <div class="direita col-2">
-                <div class="direita col-12">
+                <div class="col-12">
                     <div class="card seguir-card row">
                         <div>
                             <h2 class="mb-4">Sugestões para você</h2>
@@ -93,9 +93,9 @@ $publicacoes = $publicacaoController->obterPublicacoesProfessorGrupo($usuario['i
                         </div>
                     </div>
                 </div>
-                <div class="direita col-12">
+                <div class="col-12">
                  <br>
-                 <div class="card seguir-card" >
+                 <div class="card seguir-card noticiasIFES" >
                         <h3>Principais Notícias IFES</h3>
                         <br>
                         <?php
