@@ -8,47 +8,54 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="estilo_administrador.css" media="screen" />
+    <script src="https://kit.fontawesome.com/33da7e24d8.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="http://localhost/ConnectingIFES%202.0/app/views/administrador/estilo_administrador.css" media="screen" />
 
-    <style>
-        .nav-pills .nav-link {
-            color: white;
-            margin-right: 10px;
-            transition: background-color 0.3s ease;
-        }
 
-        .nav-pills .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.7);
-            color: white;
-        }
-
-        .nav-pills .active {
-            background-color: rgba(144, 238, 144, 0.7) !important;
-        }
-
-        header {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-danger {
-            margin-left: 20px;
-        }
-    </style>
 </head>
 
 <body>
 
-    <header class="d-flex align-items-center py-3 bg-success">
-        <div class="d-flex justify-content-center align-items-center flex-grow-1">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="http://localhost/ConnectingIFES%202.0/app/views/administrador/usuario/UsuarioREAD.php" class="nav-link" aria-current="page">Usuários</a></li>
-                <li class="nav-item"><a href="http://localhost/ConnectingIFES%202.0/app/views/administrador/grupo/GrupoREAD.php" class="nav-link" aria-current="page">Grupos</a></li>
-            </ul>
-        </div>
-        <form class="nav navbar-nav navbar-right" method="POST">
-            <button type="submit" class="btn btn-danger" name="sair">Sair</button>
-        </form>
-    </header>
+    <nav class="sidebar">
+        <ul>
+            <li>
+                <a href="http://localhost/ConnectingIFES%202.0/app/views/administrador/usuario/UsuarioREAD.php" class="nav-link" aria-current="page">
+                    <i class="fa fa-solid fa-users"></i>
+                    <span class="nav-text">
+                        Usuarios
+                    </span>
+                </a>
+            </li>
+
+            <li>
+                <a href="http://localhost/ConnectingIFES%202.0/app/views/administrador/grupo/GrupoREAD.php">
+                    <i class="fa fa-solid fa-group-arrows-rotate"></i>
+                    <span class="nav-text">
+                        Grupos
+                    </span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="logout">
+            <li>
+                <a>
+                    <form class="nav navbar-nav navbar-right" method="POST">
+                        <button type="submit" class="btn btn-secondary" name="sair" id="btn-sair">
+                            <i class="bi bi-power bi-2x"></i>
+                            <span class="nav-text">
+                                Sair
+                            </span>
+                        </button>
+                    </form>
+
+            </li>
+        </ul>
+
+    </nav>
+
+
 
 </body>
 

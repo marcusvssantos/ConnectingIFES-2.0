@@ -10,7 +10,7 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connecting IFES</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="img/Logo ConnectingIFES.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="http://localhost/ConnectingIFES%202.0/public/img/Logo ConnectingIFES.png">
     <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -105,7 +105,7 @@ session_start();
 <body>
     <div class="login-container">
         <div class="images-container"> <!-- Div envolvente adicionada aqui -->
-            <img src="http://localhost/ConnectingIFES%202.0//public/img/logoIFES.svg">
+            <img src="http://localhost/ConnectingIFES%202.0/public/img/logoIFES.svg">
             <img src="http://localhost/ConnectingIFES%202.0//public/img/Logo ConnectingIFES.png">
         </div>
         <form method="POST" action="../app/controllers/login/ProcessarLogin.php" id="formlogin" name="formlogin">

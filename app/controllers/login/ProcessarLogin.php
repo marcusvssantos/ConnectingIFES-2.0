@@ -25,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             case 'administrador':
                 $usuario = $usuarioController->obterAdministradorPorLoginSenha($login, $senha);
                 break;
-                break;
             default:
                 // Código para o caso de nenhum dos valores acima
                 break;
@@ -50,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: http://localhost/ConnectingIFES%202.0/app/views/aluno/connectingIFES.php");
                     break;
                 case 'administrador':
-                    $_SESSION['matricula'] = $matricula;
+                    $_SESSION['login'] = $login;
                     $_SESSION['senha'] = $senha;
                     header("Location: http://localhost/ConnectingIFES%202.0/app/views/administrador/connectingIFES.php");
                     break;
